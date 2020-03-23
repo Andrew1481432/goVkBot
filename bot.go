@@ -165,7 +165,7 @@ func (b *Bot) handle(updates []vk.LongPollUpdate) { // TODO blame
 
 			_ = createDecoder(&pm).Decode(update.Object)
 
-			args := strings.Split(pm.Message.Text, " ")
+			/*args := strings.Split(pm.Message.Text, " ")
 			if len(args) >= 1 && args[0] != "" {
 				cmd := strings.ToLower(args[0])
 				if b.isPrefix(cmd) {
@@ -195,7 +195,7 @@ func (b *Bot) handle(updates []vk.LongPollUpdate) { // TODO blame
 
 					continue
 				}
-			}
+			}*/
 
 			ev = &event.MessageNew{PrivateMessage: &pm}
 
