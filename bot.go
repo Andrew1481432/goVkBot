@@ -164,7 +164,6 @@ func (b *Bot) handle(updates []vk.LongPollUpdate) { // TODO blame
 			pm := pojo.PrivateMessage{}
 
 			_ = createDecoder(&pm).Decode(update.Object)
-			fmt.Println(update.Object, pm)
 
 			args := strings.Split(pm.Message.Text, " ")
 			if len(args) >= 1 && args[0] != "" {
@@ -209,7 +208,6 @@ func (b *Bot) handle(updates []vk.LongPollUpdate) { // TODO blame
 			pm := pojo.Message{}
 
 			_ = createDecoder(&pm).Decode(update.Object)
-			fmt.Println(update.Object, pm)
 			ev = &event.MessageReply{Message: &pm}
 
 		case event.MessageAllowEvent:

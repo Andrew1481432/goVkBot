@@ -2,7 +2,7 @@ package vk
 
 type LongPollUpdate struct {
 	EventType string      `json:"type"`
-	Object    interface{} `json:"pojo"`
+	Object    interface{} `json:"object"`
 	GroupId   int         `json:"group_id"`
 }
 
