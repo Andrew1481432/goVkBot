@@ -1,4 +1,4 @@
-package pojo
+package object
 
 type Graffiti struct {
 	Source string `json:"src" map:"src"`

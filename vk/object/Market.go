@@ -1,4 +1,4 @@
-package pojo
+package object
 
 type Price struct {
 	Amount int `json:"amount" map:"amount"`

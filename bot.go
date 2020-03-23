@@ -17,7 +17,7 @@ import (
 	"github.com/Andrew1481432/goVkBot/event/handlers"
 	"github.com/Andrew1481432/goVkBot/log"
 	"github.com/Andrew1481432/goVkBot/vk"
-	"github.com/Andrew1481432/goVkBot/vk/pojo"
+	"github.com/Andrew1481432/goVkBot/vk/object"
 )
 
 type Bot struct {
@@ -161,7 +161,7 @@ func (b *Bot) handle(updates []vk.LongPollUpdate) { // TODO blame
 		switch update.EventType {
 
 		case event.MessageNewEvent:
-			pm := pojo.PrivateMessage{}
+			pm := object.PrivateMessage{}
 
 			_ = createDecoder(&pm).Decode(update.Object)
 
@@ -200,12 +200,12 @@ func (b *Bot) handle(updates []vk.LongPollUpdate) { // TODO blame
 			ev = &event.MessageNew{PrivateMessage: &pm}
 
 		case event.MessageEditEvent:
-			pm := pojo.PrivateMessage{}
+			pm := object.PrivateMessage{}
 			_ = createDecoder(&pm).Decode(update.Object)
 			ev = &event.MessageEdit{PrivateMessage: &pm}
 
 		case event.MessageReplyEvent:
-			pm := pojo.Message{}
+			pm := object.Message{}
 
 			_ = createDecoder(&pm).Decode(update.Object)
 			ev = &event.MessageReply{Message: &pm}

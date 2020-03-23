@@ -1,4 +1,4 @@
-package pojo
+package object
 
 type WallReply struct {
 }

@@ -1,4 +1,4 @@
-package pojo
+package object
 
 const (
 	MESSAGEACTION_CHAT_PHOTO_UPDATE        = "chat_photo_update"

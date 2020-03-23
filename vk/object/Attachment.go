@@ -1,4 +1,4 @@
-package pojo
+package object
 
 type Attachment struct {
 	Type        string       `json:"type" map:"type"`

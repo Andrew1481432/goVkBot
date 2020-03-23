@@ -1,4 +1,4 @@
-package pojo
+package object
 
 import "fmt"
 
