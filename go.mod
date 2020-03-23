@@ -1,4 +1,4 @@
-module github.com/AlexBrin/goVkBot
+module github.com/Andrew1481432/goVkBot
 
 go 1.12
 
