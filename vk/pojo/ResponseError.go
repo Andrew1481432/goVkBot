@@ -1,4 +1,4 @@
-package object
+package pojo
 
 type ResponseError struct {
 	ErrorCode int            `json:"error_code"`

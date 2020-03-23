@@ -1,13 +1,13 @@
 package event
 
 import (
-	"github.com/Andrew1481432/goVkBot/vk/object"
+	"github.com/Andrew1481432/goVkBot/vk/pojo"
 )
 
 type Command struct {
 	Command        string
 	Args           []string
-	PrivateMessage *object.PrivateMessage
+	PrivateMessage *pojo.PrivateMessage
 }
 
 func (c *Command) GetName() string {

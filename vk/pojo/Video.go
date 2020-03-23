@@ -1,5 +1,4 @@
-package object
+package pojo
 
 type Video struct {
-
 }

@@ -1,4 +1,4 @@
-package object
+package pojo
 
 type Coordinates struct {
 	Latitude  int `json:"latitude"`

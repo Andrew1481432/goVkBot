@@ -1,4 +1,4 @@
-package object
+package pojo
 
 type AudioMessage struct {
 	Duration int    `json:"duration" map:"duration"`

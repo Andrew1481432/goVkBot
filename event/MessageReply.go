@@ -1,11 +1,11 @@
 package event
 
 import (
-	"github.com/Andrew1481432/goVkBot/vk/object"
+	"github.com/Andrew1481432/goVkBot/vk/pojo"
 )
 
 type MessageReply struct {
-	PrivateMessage *object.PrivateMessage `json:"" map:""`
+	Message *pojo.Message `json:"" map:""`
 }
 
 func (m MessageReply) GetName() string {

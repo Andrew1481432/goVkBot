@@ -17,7 +17,7 @@ import (
 	"github.com/Andrew1481432/goVkBot/event/handlers"
 	"github.com/Andrew1481432/goVkBot/log"
 	"github.com/Andrew1481432/goVkBot/vk"
-	"github.com/Andrew1481432/goVkBot/vk/object"
+	"github.com/Andrew1481432/goVkBot/vk/pojo"
 )
 
 type Bot struct {
@@ -161,12 +161,10 @@ func (b *Bot) handle(updates []vk.LongPollUpdate) { // TODO blame
 		switch update.EventType {
 
 		case event.MessageNewEvent:
-		case event.MessageEditEvent:
-		case event.MessageReplyEvent:
-			pm := object.PrivateMessage{}
+			pm := pojo.PrivateMessage{}
 
 			_ = createDecoder(&pm).Decode(update.Object)
-			fmt.Println(update.Object)
+			fmt.Println(update.Object, pm)
 
 			args := strings.Split(pm.Message.Text, " ")
 			if len(args) >= 1 && args[0] != "" {
@@ -200,20 +198,19 @@ func (b *Bot) handle(updates []vk.LongPollUpdate) { // TODO blame
 				}
 			}
 
-			switch update.EventType {
-			case event.MessageNewEvent:
-				ev = &event.MessageNew{PrivateMessage: &pm}
-				break
+			ev = &event.MessageNew{PrivateMessage: &pm}
 
-			case event.MessageReplyEvent:
-				ev = &event.MessageReply{PrivateMessage: &pm}
-				break
+		case event.MessageEditEvent:
+			pm := pojo.PrivateMessage{}
+			_ = createDecoder(&pm).Decode(update.Object)
+			ev = &event.MessageEdit{PrivateMessage: &pm}
 
-			case event.MessageEditEvent:
-				ev = &event.MessageEdit{PrivateMessage: &pm}
-				break
-			}
-			break
+		case event.MessageReplyEvent:
+			pm := pojo.Message{}
+
+			_ = createDecoder(&pm).Decode(update.Object)
+			fmt.Println(update.Object, pm)
+			ev = &event.MessageReply{Message: &pm}
 
 		case event.MessageAllowEvent:
 			ev = &event.MessageAllow{}
