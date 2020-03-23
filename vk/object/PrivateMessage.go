@@ -19,7 +19,7 @@ type MessageActionPhoto struct {
 
 type MessageAction struct {
 	Type     string             `json:"type"`
-	MemberID float64            `json:"member_id"`
+	MemberID int                `json:"member_id"`
 	Text     string             `json:"text"`
 	Email    string             `json:"email"`
 	Photo    MessageActionPhoto `json:"photo"`
@@ -45,13 +45,13 @@ type ClientInfo struct {
 }
 
 type Message struct {
-	ID                float64           `json:"id" map:"id"`
-	Date              float64           `json:"date" map:"date"`
-	PeerID            float64           `json:"peer_id" map:"peer_id"`
-	FromID            float64           `json:"from_id" map:"from_id"`
-	UserID            float64           `json:"from_id" map:"from_id"`
+	ID                int               `json:"id" map:"id"`
+	Date              int               `json:"date" map:"date"`
+	PeerID            int               `json:"peer_id" map:"peer_id"`
+	FromID            int               `json:"from_id" map:"from_id"`
+	UserID            int               `json:"from_id" map:"from_id"`
 	Text              string            `json:"text" map:"text"`
-	RandomID          float64           `json:"random_id" map:"random_id"`
+	RandomID          int               `json:"random_id" map:"random_id"`
 	Ref               string            `json:"ref" map:"ref"`
 	RefSource         string            `json:"ref_source" map:"ref_source"`
 	Attachments       []*Attachment     `json:"attachments" map:"attachments"`

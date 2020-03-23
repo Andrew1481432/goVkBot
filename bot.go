@@ -3,11 +3,6 @@ package govkbot
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/Andrew1481432/goVkBot/event"
-	"github.com/Andrew1481432/goVkBot/event/handlers"
-	"github.com/Andrew1481432/goVkBot/log"
-	"github.com/Andrew1481432/goVkBot/vk"
-	"github.com/Andrew1481432/goVkBot/vk/object"
 	"github.com/mitchellh/mapstructure"
 	"html/template"
 	"io/ioutil"
@@ -15,6 +10,14 @@ import (
 	"strconv"
 	"strings"
 	"time"
+)
+
+import (
+	"github.com/Andrew1481432/goVkBot/event"
+	"github.com/Andrew1481432/goVkBot/event/handlers"
+	"github.com/Andrew1481432/goVkBot/log"
+	"github.com/Andrew1481432/goVkBot/vk"
+	"github.com/Andrew1481432/goVkBot/vk/object"
 )
 
 type Bot struct {
@@ -135,7 +138,7 @@ func (b *Bot) On(eventType string, h ...handlers.EventHandler) {
 //	}
 //}
 
-func (b *Bot) SendMessage(message string, to float64, params vk.H) {
+func (b *Bot) SendMessage(message string, to int, params vk.H) {
 	params["peer_id"] = to
 	params["message"] = template.URLQueryEscaper(message)
 	params["random_id"] = time.Now().UnixNano() + int64(to)
@@ -152,14 +155,18 @@ func (b *Bot) SendMessage(message string, to float64, params vk.H) {
 	}
 }
 
-func (b *Bot) handle(updates []vk.LongPollUpdate) {
+func (b *Bot) handle(updates []vk.LongPollUpdate) { // TODO blame
 	var ev event.Event
 	for _, update := range updates {
 		switch update.EventType {
 
 		case event.MessageNewEvent:
+		case event.MessageEditEvent:
+		case event.MessageReplyEvent:
 			pm := object.PrivateMessage{}
+
 			_ = createDecoder(&pm).Decode(update.Object)
+			fmt.Println(update.Object)
 
 			args := strings.Split(pm.Message.Text, " ")
 			if len(args) >= 1 && args[0] != "" {
@@ -193,17 +200,20 @@ func (b *Bot) handle(updates []vk.LongPollUpdate) {
 				}
 			}
 
-			ev = &event.MessageNew{PrivateMessage: &pm}
+			switch update.EventType {
+			case event.MessageNewEvent:
+				ev = &event.MessageNew{PrivateMessage: &pm}
+				break
 
-		case event.MessageEditEvent:
-			pm := object.PrivateMessage{}
-			_ = createDecoder(&pm).Decode(update.Object)
-			ev = &event.MessageEdit{PrivateMessage: &pm}
+			case event.MessageReplyEvent:
+				ev = &event.MessageReply{PrivateMessage: &pm}
+				break
 
-		case event.MessageReplyEvent:
-			pm := object.PrivateMessage{}
-			_ = createDecoder(&pm).Decode(update.Object)
-			ev = &event.MessageReply{PrivateMessage: &pm}
+			case event.MessageEditEvent:
+				ev = &event.MessageEdit{PrivateMessage: &pm}
+				break
+			}
+			break
 
 		case event.MessageAllowEvent:
 			ev = &event.MessageAllow{}
@@ -228,7 +238,7 @@ func (b *Bot) handle(updates []vk.LongPollUpdate) {
 	}
 }
 
-func (b *Bot) Polling() {
+func (b *Bot) Polling() { // TODO blame
 	b.GetLogger().Log("Getting LongPoll Server...")
 
 	resp, err := b.GetApi().Api("groups.getLongPollServer", vk.H{
