@@ -165,37 +165,39 @@ func (b *Bot) handle(updates []vk.LongPollUpdate) { // TODO blame
 
 			_ = createDecoder(&pm).Decode(update.Object)
 
-			/*args := strings.Split(pm.Message.Text, " ")
-			if len(args) >= 1 && args[0] != "" {
-				cmd := strings.ToLower(args[0])
-				if b.isPrefix(cmd) {
-					cmd = cmd[1:]
-				}
+			if pm.Message.Text != "" {
+				args := strings.Split(pm.Message.Text, " ")
+				if len(args) > 0 {
+					cmd := strings.ToLower(args[0])
+					if b.isPrefix(cmd) {
+						cmd = cmd[1:]
+					}
 
-				var next bool
+					var next bool
 
-				if b.commandExists("*") {
-					for _, handler := range b.commandHandlers["*"] {
-						if b.commandExists(cmd) {
+					if b.commandExists("*") {
+						for _, handler := range b.commandHandlers["*"] {
+							if b.commandExists(cmd) {
+								next = handler(args[1:], &event.Command{Command: args[0], Args: args[1:], PrivateMessage: &pm})
+								if !next {
+									break
+								}
+							}
+						}
+					}
+
+					if b.commandExists(cmd) {
+						for _, handler := range b.commandHandlers[cmd] {
 							next = handler(args[1:], &event.Command{Command: args[0], Args: args[1:], PrivateMessage: &pm})
 							if !next {
 								break
 							}
 						}
+
+						continue
 					}
 				}
-
-				if b.commandExists(cmd) {
-					for _, handler := range b.commandHandlers[cmd] {
-						next = handler(args[1:], &event.Command{Command: args[0], Args: args[1:], PrivateMessage: &pm})
-						if !next {
-							break
-						}
-					}
-
-					continue
-				}
-			}*/
+			}
 
 			ev = &event.MessageNew{PrivateMessage: &pm}
 
